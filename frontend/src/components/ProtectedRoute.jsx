@@ -2,23 +2,17 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, requiredRole }) => {
+  const { user } = useContext(ShopContext);
 
-  const { user, authLoading } = useContext(ShopContext);
-
-  // While we're checking localStorage's token against the backend on
-  // refresh, don't redirect yet - otherwise every refresh briefly
-  // bounces to /auth before the session restore finishes.
-  if (authLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <p className="text-gray-500">Loading...</p>
-      </div>
-    );
-  }
-
+  // User not logged in
   if (!user) {
     return <Navigate to="/auth" replace />;
+  }
+
+  // Role check
+  if (requiredRole && user.role !== requiredRole) {
+    return <Navigate to="/" replace />;
   }
 
   return children;

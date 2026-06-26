@@ -10,114 +10,35 @@ const Navbar = () => {
     <div className="border-b bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
 
-        {/* Logo */}
         <NavLink to="/">
-          <img
-            src={assets.logo}
-            className="w-28 cursor-pointer"
-            alt="logo"
-          />
+          <img src={assets.logo} className="w-28" alt="logo" />
         </NavLink>
 
-        {/* Desktop Menu */}
         <div className="hidden sm:flex items-center gap-8 text-sm font-medium">
 
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `pb-1 border-b-2 ${
-                isActive
-                  ? "border-black text-black"
-                  : "border-transparent text-gray-500 hover:text-black"
-              }`
-            }
-          >
-            Home
-          </NavLink>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/collection">Collection</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
 
-          <NavLink
-            to="/collection"
-            className={({ isActive }) =>
-              `pb-1 border-b-2 ${
-                isActive
-                  ? "border-black text-black"
-                  : "border-transparent text-gray-500 hover:text-black"
-              }`
-            }
-          >
-            Collection
-          </NavLink>
-
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              `pb-1 border-b-2 ${
-                isActive
-                  ? "border-black text-black"
-                  : "border-transparent text-gray-500 hover:text-black"
-              }`
-            }
-          >
-            About
-          </NavLink>
-
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              `pb-1 border-b-2 ${
-                isActive
-                  ? "border-black text-black"
-                  : "border-transparent text-gray-500 hover:text-black"
-              }`
-            }
-          >
-            Contact
-          </NavLink>
-
-          {/* Customer Links */}
-          {user?.role === "customer" && (
-            <>
-              <NavLink
-                to="/orders"
-                className={({ isActive }) =>
-                  `pb-1 border-b-2 ${
-                    isActive
-                      ? "border-black text-black"
-                      : "border-transparent text-gray-500 hover:text-black"
-                  }`
-                }
-              >
-                Orders
-              </NavLink>
-            </>
+          {user && (
+            <NavLink to="/orders">
+              Orders
+            </NavLink>
           )}
 
-          {/* Manager */}
           {user?.role === "manager" && (
-            <NavLink
-              to="/manager"
-              className={({ isActive }) =>
-                `pb-1 border-b-2 ${
-                  isActive
-                    ? "border-black text-black"
-                    : "border-transparent text-gray-500 hover:text-black"
-                }`
-              }
-            >
+            <NavLink to="/manager">
               Manager Panel
             </NavLink>
           )}
+
         </div>
 
-        {/* Right Section */}
         <div className="flex items-center gap-4">
 
-          {/* Customer Cart */}
-          {user?.role === "customer" && (
-            <NavLink
-              to="/cart"
-              className="relative p-2 rounded-full hover:bg-gray-100"
-            >
+          {user?.role !== "manager" && (
+            <NavLink to="/cart" className="relative">
               <img
                 src={assets.cart_icon}
                 className="w-6"
@@ -125,35 +46,26 @@ const Navbar = () => {
               />
 
               {getCartCount() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 text-[10px] flex items-center justify-center">
                   {getCartCount()}
                 </span>
               )}
             </NavLink>
           )}
 
-          {/* User Name */}
-          {user && (
-            <span className="text-sm font-medium">
-              {user.name}
-            </span>
-          )}
+          {user && <span>{user.name}</span>}
 
-          {/* Login */}
-          {!user && (
+          {!user ? (
             <NavLink
               to="/auth"
-              className="border border-black px-4 py-2 rounded-md text-sm font-medium hover:bg-black hover:text-white transition"
+              className="border px-4 py-2 rounded"
             >
               Login
             </NavLink>
-          )}
-
-          {/* Logout */}
-          {user && (
+          ) : (
             <button
               onClick={logout}
-              className="border border-black px-4 py-2 rounded-md text-sm font-medium hover:bg-black hover:text-white transition"
+              className="border px-4 py-2 rounded"
             >
               Logout
             </button>

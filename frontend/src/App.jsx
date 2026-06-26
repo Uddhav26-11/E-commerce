@@ -7,7 +7,14 @@ import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
 import { ShopContext } from "./context/ShopContext";
 
-const PUBLIC_PATHS = ["/auth"];
+const PUBLIC_PATHS = [
+  "/",
+  "/collection",
+  "/about",
+  "/contact",
+  "/cart",
+  "/auth",
+];
 
 function AppWrapper() {
   const { user } = useContext(ShopContext);
@@ -35,12 +42,10 @@ function AppWrapper() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <AppWrapper />
     </BrowserRouter>
   );
 }
-
-export default App;
